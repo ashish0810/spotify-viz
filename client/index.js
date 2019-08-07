@@ -1,10 +1,10 @@
-import { auth } from './classes/sync'
-import Template from './template'
-import Example from './example'
+import { auth } from './classes/sync';
+import Info from './info';
+import Example from './example';
 
 if (window.location.hash === '#start') {
-  // const template = new Template()
-  const example = new Example()
+  // const info = new Info();
+  const example = new Example();
 } else {
-  auth()
+  auth();
 }

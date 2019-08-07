@@ -3,7 +3,7 @@ import { interpolateRgb, interpolateBasis } from 'd3-interpolate'
 import { getRandomElement } from './util/array'
 import { sin, circle } from './util/canvas'
 
-export default class Template extends Visualizer {
+export default class Info extends Visualizer {
   constructor () {
     super({ volumeSmoothing: 10 })
     this.theme = ['#18FF2A', '#7718FF', '#06C5FE', '#FF4242', '#18FF2A']
