@@ -174,6 +174,8 @@ export default class Sync {
     this.state.trackProgress = data.progress_ms + tock
     this.state.initialStart = window.performance.now()
 
+    this.updateNowPlaying();
+
     if (this.state.initialized === false) {
       requestAnimationFrame(this.tick.bind(this))
       this.state.initialized = true
@@ -184,6 +186,14 @@ export default class Sync {
     }
 
     this.ping()
+  }
+
+  updateNowPlaying() {
+    const nowPlaying = document.getElementById('nowPlaying');
+    const title = this.state.currentlyPlaying.name;
+    const heading = document.createElement('h1');
+    heading.innerHTML = title;
+    nowPlaying.appendChild(heading);
   }
 
   /**
@@ -285,7 +295,7 @@ export default class Sync {
   }
 
   get section () {
-    this.state.activeIntervals.sections
+    return this.state.activeIntervals.sections
   }
 
   /**

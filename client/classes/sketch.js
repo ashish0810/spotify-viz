@@ -4,20 +4,29 @@
 export default class Sketch {
   constructor ({
     main = null,
+    doOnce = null,
     container = document.body,
     hidpi = true
   } = {}) {
-    this.container = container
-    this.hidpi = hidpi
-    this.active = false
-    this.queue = []
-    this.canvas = document.createElement('canvas')
-    this.ctx = this.canvas.getContext('2d')
-    this.container.appendChild(this.canvas)
-    this.setSize()
+    this.container = container;
+    this.hidpi = hidpi;
+    this.active = false;
+    this.queue = [];
+    this.nowPlaying = document.createElement('div');
+    this.nowPlaying.setAttribute('id', 'nowPlaying');
+    this.canvas = document.createElement('canvas');
+    this.ctx = this.canvas.getContext('2d');
+    this.container.appendChild(this.canvas);
+    this.container.appendChild(this.nowPlaying);
+
+    if (doOnce !== null) {
+      this.doOnce = doOnce;
+    }
+    
+    this.setSize(doOnce)
 
     window.addEventListener('resize', () => {
-      this.setSize()
+      this.setSize(doOnce)
     })
 
     if (main !== null) {
@@ -25,7 +34,7 @@ export default class Sketch {
     }
   }
 
-  setSize () {
+  setSize (doOnce) {
     const dpi = this.hidpi ? window.devicePixelRatio : 1
     this.width = window.innerWidth
     this.height = window.innerHeight
@@ -34,6 +43,15 @@ export default class Sketch {
     this.canvas.style.transformOrigin = 'top left'
     this.canvas.style.transform = `scale(${1/dpi})`
     this.ctx.scale(dpi, dpi) 
+    this.ctx.translate(this.width/2, this.height/2);
+    const state = {
+      ctx: this.ctx,
+      width: this.width,
+      height: this.height,
+    }
+    // console.log(state);
+    doOnce(state);
+    // console.log('did it');
   }
   
   /**

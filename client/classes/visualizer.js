@@ -9,6 +9,7 @@ export default class Visualizer {
     /** Initialize Sketch class. Assign `this.paint` as the main animation loop. */
     this.sketch = new Sketch({
       main: this.paint.bind(this),
+      doOnce: this.doOnce.bind(this),
       hidpi
     })
 
@@ -42,5 +43,12 @@ export default class Visualizer {
    */
   paint () {
 
+  }
+
+  /**
+   * @method doOnce - Single paint frame at the beginning
+   */
+  doOnce () {
+    
   }
 }

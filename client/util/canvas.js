@@ -66,15 +66,21 @@ export function drawShape (ctx, vertices) {
   return ctx
 }
 
-export function sin (ctx, xOffset, yOffset, amplitude, frequency, tick = 5) {
+export function sin (ctx, xOffset, yOffset, amplitude, frequency, tick = 5, angle = 0) {
   const y = x => (amplitude * Math.sin((x / frequency) + xOffset) + yOffset)
+  const theta = toRadians(angle);
+  ctx.rotate(theta);
+  ctx.stroke();
   const { width } = ctx.canvas 
   ctx.beginPath()
-  for (var x = -50; x < width + 50; x += tick) {
-    if (x === -50) {
+  for (var x = -width -50; x < width + 50; x += tick) {
+    if (x === -width - 50) {
       ctx.moveTo(x, y(x))
     } else {
       ctx.lineTo(x, y(x))
     }
   }
+  ctx.stroke();
+  ctx.rotate(-theta);
+  return ctx;
 }
