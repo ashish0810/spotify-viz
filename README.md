@@ -1,4 +1,7 @@
 # view-music
+
+**hi**
+
 > Create realtime audio-reactive visuals, powered by Spotify.
 
 The Echo Nest prides itself on the comprehensive algorithmic analysis of music. Having been acquired by Spotify their data resources are publicly available via the Spotify API. Each song within Spotify's library have been fully analyzed: broken up into individual beats, segments, tatums, bars, and sections. There are variables assigned to describe mood, pitch, timber, and more – even how "danceable" a track is. With these tools creating realtime audio-reactive visuals is now possible without having to analyze the audio stream directly.
