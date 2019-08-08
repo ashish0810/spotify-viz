@@ -193,6 +193,7 @@ export default class Sync {
     const title = this.state.currentlyPlaying.name;
     const heading = document.createElement('h1');
     heading.innerHTML = title;
+    nowPlaying.innerHTML = "";
     nowPlaying.appendChild(heading);
   }
 
