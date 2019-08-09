@@ -1,6 +1,6 @@
 # view-music
 
-**hi**
+**hi2**
 
 > Create realtime audio-reactive visuals, powered by Spotify.
 
