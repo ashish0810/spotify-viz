@@ -49,9 +49,7 @@ export default class Sketch {
       width: this.width,
       height: this.height,
     }
-    // console.log(state);
     doOnce(state);
-    // console.log('did it');
   }
   
   /**

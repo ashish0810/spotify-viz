@@ -25,27 +25,10 @@ export default class Example extends Visualizer {
   }
 
   paint ({ ctx, height, width, now, progress, durations, elapsed, start }) {
-    // console.log('info');
-    // console.log(JSON.stringify(this.sync.volume))
-    console.log('state');
-    console.log(this.sync.state.currentlyPlaying);
-    // console.log(JSON.stringify(this.sync.state));
-    // console.log('tatum');
-    // console.log(JSON.stringify(this.sync.tatum));
-    // console.log('segment');
-    // console.log(JSON.stringify(this.sync.segment));
-    // console.log('beat');
-    // console.log(JSON.stringify(this.sync.beat));
-    // console.log('bar');
-    // console.log(JSON.stringify(this.sync.bar));
-    // console.log('section');
-    // console.log(JSON.stringify(this.sync.section));
     this.rotationAngle = 0.5+this.rotationAngle;
     if (this.rotationAngle > 360) {
       this.rotationAngle = this.rotationAngle - 360;
     } 
-    // ctx.translate(width/2, height/2);
-    // ctx.rotate(this.rotationAngle);
     const bar = interpolateBasis([0, this.sync.volume * 10, 0])(this.sync.bar.progress)
     const beat = interpolateBasis([0, this.sync.volume * 300, 0])(this.sync.beat.progress)
     ctx.fillStyle = 'rgba(0, 0, 0, .08)'
