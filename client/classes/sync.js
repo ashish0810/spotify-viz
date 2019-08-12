@@ -5,6 +5,7 @@ import interpolate from '../util/interpolate'
 import { scaleLog } from 'd3-scale'
 import { min } from 'd3-array'
 import ease from '../util/easing'
+import Logger from '../logger';
 
 /**
  * @class Sync
@@ -191,6 +192,7 @@ export default class Sync {
   updateNowPlaying() {
     const nowPlaying = document.getElementById('nowPlaying');
     const title = this.state.currentlyPlaying.name;
+    Logger.info("Now Playing: " + title);
     const heading = document.createElement('h1');
     heading.innerHTML = title;
     nowPlaying.innerHTML = "";

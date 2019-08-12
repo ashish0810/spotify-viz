@@ -4,17 +4,17 @@ import Sketch from './sketch'
 export default class Visualizer {
   constructor ({ volumeSmoothing = 100, hidpi = true }) {
     /** Initialize Sync class. */
-    this.sync = new Sync({ volumeSmoothing })
+    this.sync = new Sync({ volumeSmoothing });
 
     /** Initialize Sketch class. Assign `this.paint` as the main animation loop. */
     this.sketch = new Sketch({
       main: this.paint.bind(this),
       doOnce: this.doOnce.bind(this),
       hidpi
-    })
+    });
 
-    this.watch()
-    this.hooks()
+    this.watch();
+    this.hooks();
   }
 
   /**
@@ -24,9 +24,9 @@ export default class Visualizer {
     this.sync.watch('active', val => {
       /** Start and stop sketch according to the `active` property on our Sync class. */
       if (val === true) {
-        this.sketch.start()
+        this.sketch.start();
       } else {
-        this.sketch.stop()
+        this.sketch.stop();
       }
     })
   }
@@ -50,5 +50,13 @@ export default class Visualizer {
    */
   doOnce () {
     
+  }
+
+  pause() {
+    this.sketch.stop();
+  }
+
+  play() {
+    this.sketch.start();
   }
 }
