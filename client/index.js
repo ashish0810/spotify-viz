@@ -53,5 +53,4 @@ function fullscreen() {
 }
 window.toggleFull = fullscreen;
 
-
 window.Version = VERSION;

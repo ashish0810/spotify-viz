@@ -1,13 +1,12 @@
-export default class Logger {
-    static debug(message) {
-        console.log(message);
-    }
+import DevLogger from './logger-dev';
+import ProdLogger from './logger-prod';
 
-    static info(message) {
-        console.log(message);
-    }
+var Logger;
 
-    static warn(message) {
-        console.log(message);
-    }
+if (process.env.NODE_ENV == "production") {
+    Logger = ProdLogger;
+} else {
+    Logger = DevLogger;
 }
+
+export default Logger;
