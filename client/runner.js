@@ -4,7 +4,7 @@ import { getRandomElement } from './util/array'
 import { sin, circle } from './util/canvas'
 import Logger from './logger';
 
-export default class Example extends Visualizer {
+export default class Runner extends Visualizer {
   constructor () {
     super({ volumeSmoothing: 10 })
     this.theme = ['#18FF2A', '#7718FF', '#06C5FE', '#FF4242', '#18FF2A']

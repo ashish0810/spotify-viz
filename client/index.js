@@ -1,15 +1,16 @@
 import { auth } from './classes/sync';
 import Info from './info';
-import Example from './example';
+import Runner from './runner';
 import Logger from './logger';
+import './style.css';
 
-const VERSION = "0.1.2";
+const VERSION = "0.1.3.a";
 var runner = null;
 
 if (window.location.hash === '#start') {
   Logger.info("Started app");
   Logger.info("Version: " + VERSION);
-  runner = new Example();
+  runner = new Runner();
   // const info = new Info();
 } else {
   auth();
@@ -52,5 +53,11 @@ function fullscreen() {
   }
 }
 window.toggleFull = fullscreen;
+
+document.addEventListener('keydown', (e) => {
+  if (e.keyCode == 70) {
+    fullscreen();
+  }
+});
 
 window.Version = VERSION;

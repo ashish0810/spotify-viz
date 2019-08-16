@@ -4,30 +4,12 @@
     <meta charset="UTF-8">
     <title>View Music</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-    <style>
-      *, *:before, *:after {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      canvas {
-        z-index: 2;
-      }
-
-      #nowPlaying {
-        color: white;
-        position: absolute;
-        bottom: 20px;
-        left: 0;
-        z-index: 10;
-      }
-    </style>
   </head>
   <body>
     <noscript>Oops! JavaScript is required to run this page.</noscript>
     <h1>Play some music at the same time on spotify</h1>
     <h2 id="loading"></h2>
+    <div id="overlayRoot"></div>
     <!-- <div class="nowPlaying"></div> -->
   </body> 
 </html>
