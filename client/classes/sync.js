@@ -173,6 +173,7 @@ export default class Sync {
     this.state.trackFeatures = features
     this.state.initialTrackProgress = data.progress_ms + tock
     this.state.trackProgress = data.progress_ms + tock
+    this.state.trackDuration = data.item.duration_ms;
     this.state.initialStart = window.performance.now()
 
     this.updateNowPlaying();

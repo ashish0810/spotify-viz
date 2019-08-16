@@ -3,7 +3,7 @@ import Info from './info';
 import Example from './example';
 import Logger from './logger';
 
-const VERSION = "0.1.1";
+const VERSION = "0.1.2";
 var runner = null;
 
 if (window.location.hash === '#start') {
