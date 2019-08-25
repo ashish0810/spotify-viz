@@ -4,17 +4,22 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.1.3.a";
+const VERSION = "0.1.4";
+window.Version = VERSION;
+window.playerSettings = {};
+
 var runner = null;
 
 if (window.location.hash === '#start') {
   Logger.info("Started app");
   Logger.info("Version: " + VERSION);
   runner = new Runner();
-  // const info = new Info();
+  // runner = new Info();
 } else {
   auth();
 }
+
+window.playerSettings.randColor = false;
 
 Logger.debug("Reached here");
 
@@ -59,5 +64,3 @@ document.addEventListener('keydown', (e) => {
     fullscreen();
   }
 });
-
-window.Version = VERSION;

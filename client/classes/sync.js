@@ -193,11 +193,15 @@ export default class Sync {
   updateNowPlaying() {
     const nowPlaying = document.getElementById('nowPlaying');
     const title = this.state.currentlyPlaying.name;
-    Logger.info("Now Playing: " + title);
-    const heading = document.createElement('h1');
-    heading.innerHTML = title;
+    const artist = this.state.currentlyPlaying.artists[0].name;
+    Logger.info("Now Playing: " + title + " by " + artist);
+    const titleElem = document.createElement('h1');
+    titleElem.innerHTML = title;
+    const artistElem = document.createElement('h3');
+    artistElem.innerHTML = artist;
     nowPlaying.innerHTML = "";
-    nowPlaying.appendChild(heading);
+    nowPlaying.appendChild(titleElem);
+    nowPlaying.appendChild(artistElem);
   }
 
   /**
