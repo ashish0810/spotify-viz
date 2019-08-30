@@ -64,6 +64,7 @@ export default class Sync {
 
     this.initHooks()
     this.ping()
+    window.updateNowPlaying = this.updateNowPlaying;
   }
 
   /**
@@ -191,17 +192,34 @@ export default class Sync {
   }
 
   updateNowPlaying() {
-    const nowPlaying = document.getElementById('nowPlaying');
+    const nowPlayingText = document.getElementById('nowPlayingText');
+    const nowPlayingImage = document.getElementById('nowPlayingImage');
+
     const title = this.state.currentlyPlaying.name;
     const artist = this.state.currentlyPlaying.artists[0].name;
+    const imageLink = this.state.currentlyPlaying.album.images[0].url;
+    
     Logger.info("Now Playing: " + title + " by " + artist);
     const titleElem = document.createElement('h1');
     titleElem.innerHTML = title;
     const artistElem = document.createElement('h3');
     artistElem.innerHTML = artist;
-    nowPlaying.innerHTML = "";
-    nowPlaying.appendChild(titleElem);
-    nowPlaying.appendChild(artistElem);
+    nowPlayingText.innerHTML = "";
+    nowPlayingText.appendChild(titleElem);
+    nowPlayingText.appendChild(artistElem);
+
+    // const height = nowPlayingText.clientHeight;
+    const height = 180;
+
+    Logger.debug("Image Link: " + imageLink + " (" + height + " px)");
+    const imageElem = document.createElement('img');
+    imageElem.setAttribute('src', imageLink);
+    imageElem.setAttribute('height', height);
+    imageElem.setAttribute('width', height);
+    nowPlayingImage.innerHTML = "";
+    if (window.playerSettings.showImage) {
+      nowPlayingImage.appendChild(imageElem);
+    }
   }
 
   /**

@@ -4,7 +4,7 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.1.4";
+const VERSION = "0.1.5";
 window.Version = VERSION;
 window.playerSettings = {};
 
@@ -20,6 +20,13 @@ if (window.location.hash === '#start') {
 }
 
 window.playerSettings.randColor = false;
+window.playerSettings.showImage = false;
+
+function toggleImage() {
+  window.playerSettings.showImage = !window.playerSettings.showImage;
+  window.updateNowPlaying();
+}
+window.toggleImage = toggleImage;
 
 Logger.debug("Reached here");
 
@@ -60,7 +67,14 @@ function fullscreen() {
 window.toggleFull = fullscreen;
 
 document.addEventListener('keydown', (e) => {
+  // alert(e.keyCode);
   if (e.keyCode == 70) {
     fullscreen();
+  }
+  if (e.keyCode == 82) {
+    window.playerSettings.randColor = !window.playerSettings.randColor;
+  }
+  if (e.keyCode == 73) {
+    toggleImage();
   }
 });

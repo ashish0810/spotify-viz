@@ -14,10 +14,16 @@ export default class Sketch {
     this.queue = [];
     this.nowPlaying = document.createElement('div');
     this.nowPlaying.setAttribute('id', 'nowPlaying');
+    this.nowPlayingText = document.createElement('div');
+    this.nowPlayingText.setAttribute('id', 'nowPlayingText');
+    this.nowPlayingImage = document.createElement('div');
+    this.nowPlayingImage.setAttribute('id', 'nowPlayingImage');
     this.canvas = document.createElement('canvas');
     this.ctx = this.canvas.getContext('2d');
     this.container.appendChild(this.canvas);
     this.container.appendChild(this.nowPlaying);
+    this.nowPlaying.appendChild(this.nowPlayingImage);
+    this.nowPlaying.appendChild(this.nowPlayingText);
 
     if (doOnce !== null) {
       this.doOnce = doOnce;
