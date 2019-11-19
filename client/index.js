@@ -4,9 +4,11 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.1.5";
+const VERSION = "0.1.6";
 window.Version = VERSION;
 window.playerSettings = {};
+
+window.dev = false;
 
 var runner = null;
 
@@ -27,8 +29,6 @@ function toggleImage() {
   window.updateNowPlaying();
 }
 window.toggleImage = toggleImage;
-
-Logger.debug("Reached here");
 
 function pause() {
   runner.pause();
@@ -68,13 +68,26 @@ window.toggleFull = fullscreen;
 
 document.addEventListener('keydown', (e) => {
   // alert(e.keyCode);
-  if (e.keyCode == 70) {
+  if (e.keyCode == 68) {
+    window.dev = true;
+  }
+  if (e.keyCode == 70) { // key f
     fullscreen();
   }
-  if (e.keyCode == 82) {
+  if (e.keyCode == 82 && window.dev) { // key r
     window.playerSettings.randColor = !window.playerSettings.randColor;
   }
-  if (e.keyCode == 73) {
+  if (e.keyCode == 73) { // key i
     toggleImage();
   }
+  if (e.keyCode == 32 && window.dev) { // key SPC
+    window.musicControls.togglePlay();
+  }
 });
+
+if (process.env.NODE_ENV == "development") {
+  document.title = "DEV " + document.title;
+  // window.dev = true;
+}
+
+Logger.debug("(End of main thread)");

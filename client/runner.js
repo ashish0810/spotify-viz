@@ -44,9 +44,10 @@ export default class Runner extends Visualizer {
   }
 
   paint ({ ctx, height, width, now, progress, duration, elapsed, start }) {
-    Logger.debug("Painting...");
+    // Logger.debug("Painting...");
     window.state = this.sync.state;
-    Logger.debug("Active: " + window.state.active);
+    window.ctx = ctx;
+    // Logger.debug("Active: " + window.state.active);
     if (window.playerSettings.randColor) {
       this.lastColor = this.nextColor || getRandomElement(this.theme);
       this.nextColor = getRandomElement(this.theme);
@@ -64,8 +65,10 @@ export default class Runner extends Visualizer {
     const color = interpolateRgb(this.lastColor, this.nextColor)(this.sync.bar.progress);
 
     // Clear
-    ctx.fillStyle = 'rgba(0, 0, 0, .08)';
-    ctx.fillRect(-width/2, -height/2, width, height);
+    // ctx.fillStyle = 'rgba(0, 0, 0, .08)';
+    // ctx.fillRect(-width/2, -height/2, width, height);
+    ctx.clearRect(-width/2, -height/2, width, height);
+    // ctx.clear(true);
 
     // Draw
     ctx.lineWidth = bar;
@@ -78,7 +81,7 @@ export default class Runner extends Visualizer {
     ctx.fillStyle = 'rgba(0, 0, 0, 1)';
     ctx.beginPath();
     ctx.lineWidth = beat;
-    circle(ctx, 0, 0, this.sync.volume * height / 5 + beat / 10);
+    circle(ctx, 0, 0, this.sync.volume * height / 10 + beat / 10);
     ctx.stroke();
     // Logger.debug("Progress: " + progressNorm);
     // Logger.debug("Duration: " + duration);

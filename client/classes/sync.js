@@ -1,6 +1,6 @@
 import Observe from '../util/observe'
 import * as cookies from '../util/cookie'
-import { get } from '../util/network'
+import { get, put } from '../util/network'
 import interpolate from '../util/interpolate'
 import { scaleLog } from 'd3-scale'
 import { min } from 'd3-array'
@@ -22,9 +22,15 @@ export default class Sync {
     const refreshToken = cookies.get('SPOTIFY_REFRESH_TOKEN')
     const refreshCode = cookies.get('SPOTIFY_REFRESH_CODE')
 
+    this.apiUrls = []
+    this.apiUrls.play = "https://api.spotify.com/v1/me/player/play";
+    this.apiUrls.pause = "https://api.spotify.com/v1/me/player/pause";
+
     this.state = Observe({
       api: {
         currentlyPlaying: 'https://api.spotify.com/v1/me/player',
+        play: "https://api.spotify.com/v1/me/player/play",
+        pause: "https://api.spotify.com/v1/me/player/pause",
         trackAnalysis: 'https://api.spotify.com/v1/audio-analysis/',
         trackFeatures: 'https://api.spotify.com/v1/audio-features/',
         tokens: {
@@ -64,7 +70,13 @@ export default class Sync {
 
     this.initHooks()
     this.ping()
+    window.syncObject = this;
+    window.syncState = this.state;
     window.updateNowPlaying = this.updateNowPlaying;
+    window.musicControls = [];
+    window.musicControls.play = this.sendPlay.bind(this);
+    window.musicControls.pause = this.sendPause.bind(this);
+    window.musicControls.togglePlay = this.togglePause.bind(this);
   }
 
   /**
@@ -219,6 +231,51 @@ export default class Sync {
     nowPlayingImage.innerHTML = "";
     if (window.playerSettings.showImage) {
       nowPlayingImage.appendChild(imageElem);
+    }
+  }
+
+  async sendPlay() {
+    try {
+      const { data } = await put(this.state.api.play, { headers: this.state.api.headers })
+      // if (!data || !data.is_playing) {
+      //   if (this.state.active === true) {
+      //     this.state.active = false
+      //   }
+      // }
+
+      // this.processResponse(data)
+    } catch ({ status }) {
+      if (status === 401) {
+        return this.getNewToken()
+      }
+    }
+  }
+
+  async sendPause() {
+    // Logger.debug("Pause api url: " + this.apiUrls);
+    try {
+      const { data } = await put(this.apiUrls.pause, { headers: this.state.api.headers })
+      // if (!data || !data.is_playing) {
+      //   if (this.state.active === true) {
+      //     this.state.active = false
+      //   }
+      //   // return this.ping()
+      // }
+
+      // this.processResponse(data)
+    } catch (error) {
+      Logger.debug("Got an error: " + error);
+      if (error.status === 401) {
+        return this.getNewToken()
+      }
+    }
+  }
+
+  async togglePause() {
+    if (this.state.active) {
+      this.sendPause();
+    } else {
+      this.sendPlay();
     }
   }
 
