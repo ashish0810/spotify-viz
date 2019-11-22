@@ -4,7 +4,7 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.1.7";
+const VERSION = "0.2.0";
 window.Version = VERSION;
 window.playerSettings = {};
 

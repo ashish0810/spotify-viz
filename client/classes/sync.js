@@ -6,7 +6,6 @@ import { scaleLog } from 'd3-scale'
 import { min } from 'd3-array'
 import ease from '../util/easing'
 import Logger from '../logger';
-import { getRandomElement } from '../util/array'
 
 /**
  * @class Sync
@@ -28,47 +27,10 @@ export default class Sync {
     this.apiUrls.pause = "https://api.spotify.com/v1/me/player/pause";
     this.apiUrls.next = "https://api.spotify.com/v1/me/player/next";
     this.apiUrls.prev = "https://api.spotify.com/v1/me/player/previous";
-
-    this.backgroundGifs = [
-      "http://aa.ashishbach.com/music_images/1.gif",
-      "http://aa.ashishbach.com/music_images/2.gif",
-      "http://aa.ashishbach.com/music_images/3.gif",
-      "http://aa.ashishbach.com/music_images/4.gif",
-      "http://aa.ashishbach.com/music_images/5.gif",
-      "http://aa.ashishbach.com/music_images/6.gif",
-      "http://aa.ashishbach.com/music_images/7.gif",
-      "http://aa.ashishbach.com/music_images/8.gif",
-      "http://aa.ashishbach.com/music_images/9.gif",
-      "http://aa.ashishbach.com/music_images/10.gif",
-      "http://aa.ashishbach.com/music_images/11.gif",
-      "http://aa.ashishbach.com/music_images/12.gif",
-      "http://aa.ashishbach.com/music_images/13.gif",
-      "http://aa.ashishbach.com/music_images/14.gif",
-      "http://aa.ashishbach.com/music_images/15.gif",
-      "http://aa.ashishbach.com/music_images/16.gif",
-      "http://aa.ashishbach.com/music_images/17.gif",
-      "http://aa.ashishbach.com/music_images/18.gif",
-      "http://aa.ashishbach.com/music_images/19.gif",
-      "http://aa.ashishbach.com/music_images/20.gif",
-      "http://aa.ashishbach.com/music_images/21.gif",
-      "http://aa.ashishbach.com/music_images/22.gif",
-      "http://aa.ashishbach.com/music_images/23.gif",
-      "http://aa.ashishbach.com/music_images/24.gif",
-      "http://aa.ashishbach.com/music_images/25.gif",
-      "http://aa.ashishbach.com/music_images/26.gif",
-      "http://aa.ashishbach.com/music_images/27.gif",
-      "http://aa.ashishbach.com/music_images/28.gif",
-      "http://aa.ashishbach.com/music_images/29.gif",
-      "http://aa.ashishbach.com/music_images/30.gif",
-      "http://aa.ashishbach.com/music_images/31.gif",
-      "http://aa.ashishbach.com/music_images/32.gif",
-      "http://aa.ashishbach.com/music_images/33.gif",
-      "http://aa.ashishbach.com/music_images/34.gif",
-      "http://aa.ashishbach.com/music_images/35.gif",
-      "http://aa.ashishbach.com/music_images/36.gif",
-      "http://aa.ashishbach.com/music_images/37.gif",
-    ];
-    this.currGif = this.backgroundGifs[0];
+    
+    this.numGifs = 37;
+    this.currGifIdx = 1;
+    this.currGif = "http://aa.ashishbach.com/music_images/" + this.currGifIdx + ".gif";
 
     this.state = Observe({
       api: {
@@ -280,19 +242,29 @@ export default class Sync {
     nowPlayingImage.innerHTML = "";
     nowPlayingImage.appendChild(imageElem);
 
-    this.currGif = getRandomElement(this.backgroundGifs.filter(gif => gif !== this.currGif));
+    const index = Math.floor(Math.random() * this.numGifs);
+    while (index == this.currGifIdx) {
+      index = Math.floor(Math.random() * this.numGifs);
+    }
+    this.currGifIdx = index;
+    this.currGif = "http://aa.ashishbach.com/music_images/" + (this.currGifIdx+1) + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
   }
 
   changeGif() {
-    this.currGif = getRandomElement(this.backgroundGifs.filter(gif => gif !== this.currGif));
+    const index = Math.floor(Math.random() * this.numGifs);
+    while (index == this.currGifIdx) {
+      index = Math.floor(Math.random() * this.numGifs);
+    }
+    this.currGifIdx = index;
+    this.currGif = "http://aa.ashishbach.com/music_images/" + (this.currGifIdx+1) + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
   }
 
   changeGif2(idx) {
-    this.currGif = this.backgroundGifs[idx-1];
+    this.currGif = "http://aa.ashishbach.com/music_images/" + idx + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
   }
