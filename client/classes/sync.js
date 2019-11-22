@@ -242,22 +242,15 @@ export default class Sync {
     nowPlayingImage.innerHTML = "";
     nowPlayingImage.appendChild(imageElem);
 
-    const index = Math.floor(Math.random() * this.numGifs);
-    while (index == this.currGifIdx) {
-      index = Math.floor(Math.random() * this.numGifs);
-    }
-    this.currGifIdx = index;
-    this.currGif = "http://aa.ashishbach.com/music_images/" + (this.currGifIdx+1) + ".gif";
-    document.body.style.backgroundImage = "url('" + this.currGif + "')";
-    Logger.debug(this.currGif);
+    this.changeGif();
   }
 
   changeGif() {
-    const index = Math.floor(Math.random() * this.numGifs);
-    while (index == this.currGifIdx) {
-      index = Math.floor(Math.random() * this.numGifs);
+    var idx = Math.floor(Math.random() * this.numGifs);
+    while (idx == this.currGifIdx) {
+      idx = Math.floor(Math.random() * this.numGifs);
     }
-    this.currGifIdx = index;
+    this.currGifIdx = idx;
     this.currGif = "http://aa.ashishbach.com/music_images/" + (this.currGifIdx+1) + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);

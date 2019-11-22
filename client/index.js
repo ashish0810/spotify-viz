@@ -4,7 +4,7 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.2.0";
+const VERSION = "0.2.1";
 window.Version = VERSION;
 window.playerSettings = {};
 
@@ -13,7 +13,7 @@ window.dev = false;
 var runner = null;
 
 if (window.location.hash === '#start') {
-  Logger.info("Started app");
+  Logger.info("Starting app");
   Logger.info("Version: " + VERSION);
   runner = new Runner();
   // runner = new Info();
@@ -66,6 +66,8 @@ function fullscreen() {
   }
 }
 window.toggleFull = fullscreen;
+
+setInterval(window.changeGif, 15000);
 
 document.addEventListener('keydown', (e) => {
   // alert(e.keyCode);
