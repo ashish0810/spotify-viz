@@ -81,3 +81,33 @@ export function put (url, {
     request.send()
   })
 }
+
+export function post (url, {
+  async = true,
+  headers = {}
+} = {}) {
+  return new Promise((resolve, reject) => {
+    const request = createXMLHttpRequest('POST', url, async, headers)
+
+    const error = () => {
+      const response = createResponse(request)
+      response.success = false
+      response.error = request.responseText
+      reject(response)
+    }
+
+    request.onload = () => {
+      if (request.status >= 200 && request.status < 400) {
+        const response = createResponse(request)
+        response.success = true
+        resolve(response)
+      }
+
+      if (request.status >= 400) error(request)
+    }
+
+    request.onerror = () => error(request)
+
+    request.send()
+  })
+}

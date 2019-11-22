@@ -1,11 +1,12 @@
 import Observe from '../util/observe'
 import * as cookies from '../util/cookie'
-import { get, put } from '../util/network'
+import { get, put, post } from '../util/network'
 import interpolate from '../util/interpolate'
 import { scaleLog } from 'd3-scale'
 import { min } from 'd3-array'
 import ease from '../util/easing'
 import Logger from '../logger';
+import { getRandomElement } from '../util/array'
 
 /**
  * @class Sync
@@ -25,12 +26,57 @@ export default class Sync {
     this.apiUrls = []
     this.apiUrls.play = "https://api.spotify.com/v1/me/player/play";
     this.apiUrls.pause = "https://api.spotify.com/v1/me/player/pause";
+    this.apiUrls.next = "https://api.spotify.com/v1/me/player/next";
+    this.apiUrls.prev = "https://api.spotify.com/v1/me/player/previous";
+
+    this.backgroundGifs = [
+      "http://aa.ashishbach.com/music_images/1.gif",
+      "http://aa.ashishbach.com/music_images/2.gif",
+      "http://aa.ashishbach.com/music_images/3.gif",
+      "http://aa.ashishbach.com/music_images/4.gif",
+      "http://aa.ashishbach.com/music_images/5.gif",
+      "http://aa.ashishbach.com/music_images/6.gif",
+      "http://aa.ashishbach.com/music_images/7.gif",
+      "http://aa.ashishbach.com/music_images/8.gif",
+      "http://aa.ashishbach.com/music_images/9.gif",
+      "http://aa.ashishbach.com/music_images/10.gif",
+      "http://aa.ashishbach.com/music_images/11.gif",
+      "http://aa.ashishbach.com/music_images/12.gif",
+      "http://aa.ashishbach.com/music_images/13.gif",
+      "http://aa.ashishbach.com/music_images/14.gif",
+      "http://aa.ashishbach.com/music_images/15.gif",
+      "http://aa.ashishbach.com/music_images/16.gif",
+      "http://aa.ashishbach.com/music_images/17.gif",
+      "http://aa.ashishbach.com/music_images/18.gif",
+      "http://aa.ashishbach.com/music_images/19.gif",
+      "http://aa.ashishbach.com/music_images/20.gif",
+      "http://aa.ashishbach.com/music_images/21.gif",
+      "http://aa.ashishbach.com/music_images/22.gif",
+      "http://aa.ashishbach.com/music_images/23.gif",
+      "http://aa.ashishbach.com/music_images/24.gif",
+      "http://aa.ashishbach.com/music_images/25.gif",
+      "http://aa.ashishbach.com/music_images/26.gif",
+      "http://aa.ashishbach.com/music_images/27.gif",
+      "http://aa.ashishbach.com/music_images/28.gif",
+      "http://aa.ashishbach.com/music_images/29.gif",
+      "http://aa.ashishbach.com/music_images/30.gif",
+      "http://aa.ashishbach.com/music_images/31.gif",
+      "http://aa.ashishbach.com/music_images/32.gif",
+      "http://aa.ashishbach.com/music_images/33.gif",
+      "http://aa.ashishbach.com/music_images/34.gif",
+      "http://aa.ashishbach.com/music_images/35.gif",
+      "http://aa.ashishbach.com/music_images/36.gif",
+      "http://aa.ashishbach.com/music_images/37.gif",
+    ];
+    this.currGif = this.backgroundGifs[0];
 
     this.state = Observe({
       api: {
         currentlyPlaying: 'https://api.spotify.com/v1/me/player',
         play: "https://api.spotify.com/v1/me/player/play",
         pause: "https://api.spotify.com/v1/me/player/pause",
+        next: "https://api.spotify.com/v1/me/player/next",
+        prev: "https://api.spotify.com/v1/me/player/previous",
         trackAnalysis: 'https://api.spotify.com/v1/audio-analysis/',
         trackFeatures: 'https://api.spotify.com/v1/audio-features/',
         tokens: {
@@ -77,6 +123,10 @@ export default class Sync {
     window.musicControls.play = this.sendPlay.bind(this);
     window.musicControls.pause = this.sendPause.bind(this);
     window.musicControls.togglePlay = this.togglePause.bind(this);
+    window.musicControls.next = this.sendNext.bind(this);
+    window.musicControls.prev = this.sendPrev.bind(this);
+    window.changeGif = this.changeGif.bind(this);
+    window.changeGif2 = this.changeGif2.bind(this);
   }
 
   /**
@@ -220,7 +270,6 @@ export default class Sync {
     nowPlayingText.appendChild(titleElem);
     nowPlayingText.appendChild(artistElem);
 
-    // const height = nowPlayingText.clientHeight;
     const height = 180;
 
     Logger.debug("Image Link: " + imageLink + " (" + height + " px)");
@@ -229,21 +278,28 @@ export default class Sync {
     imageElem.setAttribute('height', height);
     imageElem.setAttribute('width', height);
     nowPlayingImage.innerHTML = "";
-    if (window.playerSettings.showImage) {
-      nowPlayingImage.appendChild(imageElem);
-    }
+    nowPlayingImage.appendChild(imageElem);
+
+    this.currGif = getRandomElement(this.backgroundGifs.filter(gif => gif !== this.currGif));
+    document.body.style.backgroundImage = "url('" + this.currGif + "')";
+    Logger.debug(this.currGif);
+  }
+
+  changeGif() {
+    this.currGif = getRandomElement(this.backgroundGifs.filter(gif => gif !== this.currGif));
+    document.body.style.backgroundImage = "url('" + this.currGif + "')";
+    Logger.debug(this.currGif);
+  }
+
+  changeGif2(idx) {
+    this.currGif = this.backgroundGifs[idx-1];
+    document.body.style.backgroundImage = "url('" + this.currGif + "')";
+    Logger.debug(this.currGif);
   }
 
   async sendPlay() {
     try {
       const { data } = await put(this.state.api.play, { headers: this.state.api.headers })
-      // if (!data || !data.is_playing) {
-      //   if (this.state.active === true) {
-      //     this.state.active = false
-      //   }
-      // }
-
-      // this.processResponse(data)
     } catch ({ status }) {
       if (status === 401) {
         return this.getNewToken()
@@ -252,17 +308,8 @@ export default class Sync {
   }
 
   async sendPause() {
-    // Logger.debug("Pause api url: " + this.apiUrls);
     try {
-      const { data } = await put(this.apiUrls.pause, { headers: this.state.api.headers })
-      // if (!data || !data.is_playing) {
-      //   if (this.state.active === true) {
-      //     this.state.active = false
-      //   }
-      //   // return this.ping()
-      // }
-
-      // this.processResponse(data)
+      const { data } = await put(this.state.api.pause, { headers: this.state.api.headers })
     } catch (error) {
       Logger.debug("Got an error: " + error);
       if (error.status === 401) {
@@ -276,6 +323,28 @@ export default class Sync {
       this.sendPause();
     } else {
       this.sendPlay();
+    }
+  }
+
+  async sendNext() {
+    try {
+      const { data } = await post(this.state.api.next, { headers: this.state.api.headers })
+    } catch (error) {
+      Logger.debug("Got an error: " + error);
+      if (error.status === 401) {
+        return this.getNewToken()
+      }
+    }
+  }
+
+  async sendPrev() {
+    try {
+      const { data } = await post(this.state.api.prev, { headers: this.state.api.headers })
+    } catch (error) {
+      Logger.debug("Got an error: " + error);
+      if (error.status === 401) {
+        return this.getNewToken()
+      }
     }
   }
 

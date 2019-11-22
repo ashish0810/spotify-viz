@@ -8,7 +8,7 @@
 }
 
 body{
-    background-image: url('https://media0.giphy.com/media/dvreHY4p06lzVSDrvj/giphy.gif');
+    /* background-image: url('https://media0.giphy.com/media/dvreHY4p06lzVSDrvj/giphy.gif'); */
     background-size: cover;
     height: 100vh;
     padding:0;
@@ -26,8 +26,8 @@ canvas {
 }
 
 #nowPlaying {
-    /* color: white; */
-    color: black;
+    color: white;
+    /* color: black; */
     position: absolute;
     bottom: 20px;
     left: 0;
@@ -39,7 +39,8 @@ canvas {
     margin: 0;
     padding: 0;
     border: 0;
-    display: inline-block;
+    /* display: inline-block; */
+    display: none;
 }
 
 #nowPlayingText {

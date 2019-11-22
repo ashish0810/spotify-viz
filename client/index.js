@@ -4,7 +4,7 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.1.6";
+const VERSION = "0.1.7";
 window.Version = VERSION;
 window.playerSettings = {};
 
@@ -26,7 +26,8 @@ window.playerSettings.showImage = false;
 
 function toggleImage() {
   window.playerSettings.showImage = !window.playerSettings.showImage;
-  window.updateNowPlaying();
+  const nowPlayingImage = document.getElementById('nowPlayingImage');
+  nowPlayingImage.style.display = window.playerSettings.showImage ? "inline-block" : "none";
 }
 window.toggleImage = toggleImage;
 
@@ -69,25 +70,42 @@ window.toggleFull = fullscreen;
 document.addEventListener('keydown', (e) => {
   // alert(e.keyCode);
   if (e.keyCode == 68) {
+    Logger.debug("Enabled dev features");
     window.dev = true;
   }
   if (e.keyCode == 70) { // key f
+    Logger.debug("Toggle fullscreen");
     fullscreen();
   }
-  if (e.keyCode == 82 && window.dev) { // key r
+  if (e.keyCode == 82 && window.dev) { // key r // DEV MODE REQUIRED
+    Logger.debug("Random colors (very buggy)");
     window.playerSettings.randColor = !window.playerSettings.randColor;
   }
   if (e.keyCode == 73) { // key i
+    Logger.debug("Toggle image");
     toggleImage();
   }
-  if (e.keyCode == 32 && window.dev) { // key SPC
+  if (e.keyCode == 32 && window.dev) { // key SPC // DEV MODE REQUIRED
+    Logger.debug("Toggle play");
     window.musicControls.togglePlay();
+  }
+  if (e.keyCode == 71) { // key g
+    Logger.debug("Changing Gif");
+    window.changeGif();
+  }
+  if (e.keyCode == 37 && window.dev) { // key left // DEV MODE REQUIRED
+    Logger.debug("Prev song");
+    window.musicControls.prev();
+  }
+  if (e.keyCode == 39 && window.dev) { // key right // DEV MODE REQUIRED
+    Logger.debug("Next song");
+    window.musicControls.next();
   }
 });
 
 if (process.env.NODE_ENV == "development") {
   document.title = "DEV " + document.title;
-  // window.dev = true;
+  window.dev = true;
 }
 
 Logger.debug("(End of main thread)");
