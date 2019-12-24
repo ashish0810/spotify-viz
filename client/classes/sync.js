@@ -30,7 +30,7 @@ export default class Sync {
     
     this.numGifs = 37;
     this.currGifIdx = 1;
-    this.currGif = "http://aa.ashishbach.com/music_images/" + this.currGifIdx + ".gif";
+    this.currGif = "http://aa.ashishbach.com/static/music_images/" + this.currGifIdx + ".gif";
 
     this.state = Observe({
       api: {
@@ -251,13 +251,13 @@ export default class Sync {
       idx = Math.floor(Math.random() * this.numGifs);
     }
     this.currGifIdx = idx;
-    this.currGif = "http://aa.ashishbach.com/music_images/" + (this.currGifIdx+1) + ".gif";
+    this.currGif = "http://aa.ashishbach.com/static/music_images/" + (this.currGifIdx+1) + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
   }
 
   changeGif2(idx) {
-    this.currGif = "http://aa.ashishbach.com/music_images/" + idx + ".gif";
+    this.currGif = "http://aa.ashishbach.com/static/music_images/" + idx + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
   }
