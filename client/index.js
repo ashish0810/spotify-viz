@@ -4,7 +4,7 @@ import Runner from './runner';
 import Logger from './logger';
 import './style.css';
 
-const VERSION = "0.2.1";
+const VERSION = "0.3.0";
 window.Version = VERSION;
 window.playerSettings = {};
 
@@ -67,7 +67,20 @@ function fullscreen() {
 }
 window.toggleFull = fullscreen;
 
-setInterval(window.changeGif, 15000);
+window.bg = {};
+window.bg.interval = setInterval(window.changeGif, 15000);
+window.bg.isGif = true;
+function toggleBackground() {
+  if (window.bg.isGif) {
+    window.bg.isGif = false;
+    clearInterval(window.bg.interval);
+  } else {
+    window.bg.isGif = true;
+    window.bg.interval = setInterval(window.changeGif, 15000);
+  }
+}
+
+window.bg.toggle = toggleBackground;
 
 document.addEventListener('keydown', (e) => {
   // alert(e.keyCode);
@@ -102,6 +115,10 @@ document.addEventListener('keydown', (e) => {
   if (e.keyCode == 39 && window.dev) { // key right // DEV MODE REQUIRED
     Logger.debug("Next song");
     window.musicControls.next();
+  }
+  if (e.keyCode == 66 && window.dev) {
+    Logger.debug("Toggle Background");
+    window.bg.toggle();
   }
 });
 

@@ -246,6 +246,9 @@ export default class Sync {
   }
 
   changeGif() {
+    if (!window.bg.isGif) {
+      return;
+    }
     var idx = Math.floor(Math.random() * this.numGifs);
     while (idx == this.currGifIdx) {
       idx = Math.floor(Math.random() * this.numGifs);
@@ -257,6 +260,9 @@ export default class Sync {
   }
 
   changeGif2(idx) {
+    if (!window.bg.isGif) {
+      return;
+    }
     this.currGif = "http://aa.ashishbach.com/static/music_images/" + idx + ".gif";
     document.body.style.backgroundImage = "url('" + this.currGif + "')";
     Logger.debug(this.currGif);
