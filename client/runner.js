@@ -52,8 +52,7 @@ export default class Runner extends Visualizer {
       this.lastColor = this.nextColor || getRandomElement(this.theme);
       this.nextColor = getRandomElement(this.theme);
     }
-    // Logger.debug("Progress: " + this.sync.state.trackProgress);
-    // Logger.debug("Duration: " + this.sync.state.trackDuration);
+    
     // Sets up vars
     this.rotationAngle = 0.5+this.rotationAngle;
     if (this.rotationAngle > 360) {
@@ -65,10 +64,12 @@ export default class Runner extends Visualizer {
     const color = interpolateRgb(this.lastColor, this.nextColor)(this.sync.bar.progress);
 
     // Clear
-    // ctx.fillStyle = 'rgba(0, 0, 0, .08)';
-    // ctx.fillRect(-width/2, -height/2, width, height);
-    ctx.clearRect(-width/2, -height/2, width, height);
-    // ctx.clear(true);
+    if (window.bg.isGif) {
+      ctx.clearRect(-width/2, -height/2, width, height);
+    } else {
+      ctx.fillStyle = 'rgba(0, 0, 0, .08)';
+      ctx.fillRect(-width/2, -height/2, width, height);
+    }
 
     // Draw
     ctx.lineWidth = bar;
@@ -81,11 +82,12 @@ export default class Runner extends Visualizer {
     ctx.fillStyle = 'rgba(0, 0, 0, 1)';
     ctx.beginPath();
     ctx.lineWidth = beat;
-    circle(ctx, 0, 0, this.sync.volume * height / 10 + beat / 10);
+    if (window.bg.isGif) {
+      circle(ctx, 0, 0, this.sync.volume * height / 10 + beat / 10);
+    } else {
+      circle(ctx, 0, 0, this.sync.volume * height / 5 + beat / 10);
+    }
     ctx.stroke();
-    // Logger.debug("Progress: " + progressNorm);
-    // Logger.debug("Duration: " + duration);
-    // Logger.debug("Elapsed: " + elapsed);
     ctx.fill();
   }
 }
